@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Evaluación · Clase 2 — Elementos del Fuego · CBBU IUTEMAR</title>
+<!-- ============================================================
+     APLICACIÓN DE EVALUACIÓN AUTOCONTENIDA (SINGLE-FILE)
+     Institución : CBBU IUTEMAR
+     Documento   : Seguridad Industrial / Preparación Contra Incendios
+     Materia     : Clase 2 — Elementos del Fuego y Transferencia de Calor
+     >> Edite los parámetros en el objeto CONFIG al inicio del <script>.
+     ============================================================ -->
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#f1f5f9;color:#1e293b;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+#app{flex:1;display:flex;flex-direction:column}
+button{font:inherit}
+.hidden{display:none!important}
+.ic{width:1.1em;height:1.1em;flex:none}
+.ic-lg{width:1.5em;height:1.5em}
+[data-icon]{display:inline-flex;align-items:center}
+/* Encabezado */
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1e293b 55%,#7f1d1d 100%);border-bottom:3px solid #f59e0b}
+.head-inner{max-width:68rem;margin:0 auto;padding:.8rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+.logo-box{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#dc2626,#f59e0b);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 3px 10px rgba(220,38,38,.4);flex:none}
+.logo-box .ic{width:26px;height:26px}
+.logo-lg{width:52px;height:52px}
+.hero-inst{color:#fff;font-weight:800;font-size:1.15rem;line-height:1.2}
+.hero-sub{color:#fbbf24;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-top:2px}
+.hero-code{display:inline-block;margin-top:4px;background:rgba(245,158,11,.16);border:1px solid rgba(245,158,11,.4);color:#fcd34d;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:999px}
+.offline-note{background:#fffbeb;border-bottom:1px solid #fde68a;color:#92400e;font-size:.8rem;padding:.5rem 1rem;display:flex;gap:.5rem;align-items:center;justify-content:center;text-align:center}
+.app-main{flex:1;width:100%;max-width:68rem;margin:0 auto;padding:1.5rem 1rem}
+.app-footer{border-top:1px solid #e2e8f0;background:#fff;color:#64748b;font-size:.75rem;text-align:center;padding:1.1rem 1rem;margin-top:1.5rem}
+/* Componentes */
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:1.25rem;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.card-title{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:1rem;margin:0 0 .9rem;color:#0f172a}
+.btn{display:inline-flex;align-items:center;gap:.45rem;font-weight:600;font-size:.875rem;padding:.55rem 1rem;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:all .15s;line-height:1.25;text-decoration:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary{background:linear-gradient(135deg,#dc2626,#ea580c);color:#fff;box-shadow:0 2px 8px rgba(220,38,38,.35)}
+.btn-primary:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-1px)}
+.btn-dark{background:#0f172a;color:#fff}
+.btn-dark:hover:not(:disabled){background:#1e293b}
+.btn-success{background:#059669;color:#fff}
+.btn-success:hover:not(:disabled){background:#047857}
+.btn-danger{background:#dc2626;color:#fff}
+.btn-danger:hover:not(:disabled){background:#b91c1c}
+.btn-ghost{background:#fff;border-color:#cbd5e1;color:#334155}
+.btn-ghost:hover:not(:disabled){background:#f1f5f9}
+.btn-danger-ghost{background:#fff;border-color:#fecaca;color:#b91c1c}
+.btn-danger-ghost:hover:not(:disabled){background:#fef2f2}
+.btn-glass{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+.btn-glass:hover{background:rgba(255,255,255,.22)}
+.btn-sm{padding:.35rem .65rem;font-size:.78rem;border-radius:8px}
+.input,.select{width:100%;padding:.55rem .8rem;border:1px solid #cbd5e1;border-radius:10px;font-size:.9rem;background:#fff;color:#0f172a;transition:border-color .15s,box-shadow .15s}
+.input:focus,.select:focus{outline:none;border-color:#ea580c;box-shadow:0 0 0 3px rgba(234,88,12,.15)}
+.label{display:block;font-size:.74rem;font-weight:700;color:#334155;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.03em}
+.form-err{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;font-size:.8rem;border-radius:8px;padding:.5rem .7rem;margin:0}
+.chip{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .6rem;border-radius:999px;font-size:.72rem;font-weight:700;background:#f1f5f9;color:#334155;border:1px solid #e2e8f0}
+.chip-fire{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.18rem .6rem;border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.02em}
+.badge-ok{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}
+.badge-bad{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+.badge-warn{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+.badge-info{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+.hint-box{background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:10px;padding:.65rem .85rem;font-size:.8rem;color:#78350f;line-height:1.5}
+.ficha-k{font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b;font-weight:700}
+.ficha-v{font-size:.9rem;font-weight:600;color:#0f172a}
+.ficha-ic{width:34px;height:34px;border-radius:10px;background:#fff7ed;border:1px solid #fed7aa;color:#c2410c;display:flex;align-items:center;justify-content:center;flex:none}
+/* Examen */
+.exam-grid{display:grid;gap:1rem}
+@media(min-width:768px){.exam-grid{grid-template-columns:2fr 1fr}}
+.timer{display:inline-flex;align-items:center;gap:.45rem;background:#0f172a;color:#fff;font-weight:800;font-size:1.25rem;padding:.4rem .85rem;border-radius:10px;font-variant-numeric:tabular-nums}
+.timer.warn{background:#b91c1c;animation:pulse 1s infinite}
+.progress{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#dc2626);width:0%;transition:width .3s;border-radius:999px}
+.opt{display:flex;gap:.7rem;align-items:flex-start;width:100%;text-align:left;padding:.7rem .85rem;border:2px solid #e2e8f0;border-radius:12px;background:#fff;cursor:pointer;transition:all .15s;font-size:.92rem;color:#1e293b}
+.opt:hover:not(:disabled){border-color:#f59e0b;background:#fffbeb}
+.opt:disabled{cursor:default}
+.opt.sel{border-color:#ea580c;background:#fff7ed;box-shadow:0 0 0 3px rgba(234,88,12,.12)}
+.opt.live-ok{border-color:#10b981!important;background:#ecfdf5!important}
+.opt.live-bad{border-color:#ef4444!important;background:#fef2f2!important}
+.opt-letter{flex:none;width:1.7rem;height:1.7rem;border-radius:8px;background:#f1f5f9;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#475569;text-transform:lowercase}
+.opt.sel .opt-letter{background:#ea580c;color:#fff;border-color:#ea580c}
+.opt.live-ok .opt-letter{background:#059669;color:#fff;border-color:#059669}
+.opt.live-bad .opt-letter{background:#dc2626;color:#fff;border-color:#dc2626}
+.live-fb{margin-top:.9rem;border-radius:12px;padding:.8rem .95rem;border:2px solid;font-size:.86rem;line-height:1.5}
+.live-fb.ok{background:#ecfdf5;border-color:#10b981;color:#064e3b}
+.live-fb.bad{background:#fef2f2;border-color:#ef4444;color:#7f1d1d}
+.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem}
+.pal{width:100%;min-height:2.3rem;aspect-ratio:1;border-radius:9px;border:2px solid #e2e8f0;background:#fff;font-weight:700;font-size:.8rem;color:#64748b;cursor:pointer;transition:all .12s}
+.pal:hover{border-color:#f59e0b}
+.pal.done{background:#0f172a;color:#fff;border-color:#0f172a}
+.pal.cur{border-color:#ea580c;box-shadow:0 0 0 2px rgba(234,88,12,.3)}
+.pal-legend{display:flex;gap:.9rem;font-size:.72rem;color:#64748b;align-items:center}
+.pal-legend span{display:inline-flex;align-items:center;gap:.3rem}
+.dot{width:10px;height:10px;border-radius:999px;border:2px solid #cbd5e1;background:#fff;display:inline-block}
+.dot-done{background:#0f172a;border-color:#0f172a}
+/* Panel docente */
+.tab{padding:.45rem .9rem;border-radius:9px;font-size:.82rem;font-weight:700;color:#475569;background:transparent;border:1px solid transparent;cursor:pointer}
+.tab.active{background:#0f172a;color:#fff}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.7rem}
+.stat{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:.8rem .9rem}
+.stat-k{font-size:.66rem;text-transform:uppercase;color:#64748b;font-weight:700;letter-spacing:.05em}
+.stat-v{font-size:1.4rem;font-weight:800;color:#0f172a;font-variant-numeric:tabular-nums}
+.grow-search{flex:1 1 220px;min-width:200px}
+.tbl-wrap{overflow-x:auto;border:1px solid #e2e8f0;border-radius:12px}
+.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.tbl th{background:#0f172a;color:#fff;text-align:left;padding:.55rem .7rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.tbl td{padding:.55rem .7rem;border-bottom:1px solid #e2e8f0;vertical-align:middle}
+.tbl tbody tr:hover{background:#f8fafc}
+.pol{display:block;cursor:pointer;position:relative}
+.pol input{position:absolute;opacity:0;pointer-events:none}
+.pol-box{display:block;border:2px solid #e2e8f0;border-radius:12px;padding:.7rem .9rem;transition:all .15s}
+.pol input:checked+.pol-box{border-color:#ea580c;background:#fff7ed}
+.pol-t{display:block;font-weight:700;font-size:.88rem;color:#0f172a}
+.pol-d{display:block;font-size:.76rem;color:#64748b;margin-top:2px}
+.bank-item{border:1px solid #e2e8f0;border-radius:12px;padding:1rem;background:#fff;margin-bottom:.85rem}
+.bank-opt{padding:.4rem .65rem;border-radius:8px;border:1px solid #e2e8f0;font-size:.85rem;margin-bottom:.35rem;display:flex;gap:.5rem;align-items:flex-start}
+.bank-opt.is-ok{border-color:#10b981;background:#ecfdf5;font-weight:600;color:#064e3b}
+/* Modales y toasts */
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.62);display:flex;align-items:center;justify-content:center;padding:1rem;z-index:50;animation:fadeIn .15s}
+.modal-card{background:#fff;border-radius:16px;max-width:620px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(15,23,42,.4);animation:popIn .18s}
+.modal-lg{max-width:900px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:.75rem;padding:1rem 1.25rem;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:#fff;z-index:1}
+.modal-title{display:flex;align-items:center;gap:.5rem;font-size:1.05rem;font-weight:800;color:#0f172a}
+.modal-body{padding:1.25rem}
+.modal-x{background:#f1f5f9;border:none;border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#475569;flex:none}
+.modal-x:hover{background:#e2e8f0}
+#toastRoot{position:fixed;bottom:1rem;right:1rem;z-index:60;display:flex;flex-direction:column;gap:.5rem;max-width:min(92vw,380px)}
+.toast{display:flex;gap:.6rem;align-items:flex-start;background:#0f172a;color:#fff;padding:.7rem .9rem;border-radius:12px;border-left:4px solid #64748b;box-shadow:0 8px 24px rgba(15,23,42,.35);animation:slideUp .2s;font-size:.85rem;line-height:1.4}
+.toast-ok{border-left-color:#10b981}.toast-ok .ic{color:#34d399}
+.toast-warn{border-left-color:#f59e0b}.toast-warn .ic{color:#fbbf24}
+.toast-err{border-left-color:#ef4444}.toast-err .ic{color:#f87171}
+.toast-info{border-left-color:#38bdf8}.toast-info .ic{color:#7dd3fc}
+/* Acta */
+.acta{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:1.5rem;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.acta-head{display:flex;justify-content:space-between;gap:1rem;border-bottom:3px solid #b91c1c;padding-bottom:.9rem;margin-bottom:1rem;flex-wrap:wrap}
+.acta-inst{font-weight:800;font-size:1.05rem;color:#0f172a;display:flex;align-items:center;gap:.5rem}
+.acta-inst .ic{color:#dc2626}
+.acta-sub{color:#64748b;font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-top:3px}
+.acta-long{color:#94a3b8;font-size:.72rem;margin-top:2px}
+.acta-title{text-align:right}
+.acta-title b{font-size:1rem;color:#b91c1c;letter-spacing:.03em}
+.acta-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.6rem;margin-bottom:1rem}
+.meta-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:.5rem .7rem}
+.meta-k{font-size:.64rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b;font-weight:700}
+.meta-v{font-weight:700;font-size:.88rem;color:#0f172a;overflow-wrap:break-word}
+.score-banner{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;border:2px solid}
+.score-banner.ok{background:#ecfdf5;border-color:#10b981}
+.score-banner.bad{background:#fef2f2;border-color:#ef4444}
+.score-big{font-size:2.1rem;font-weight:800;font-variant-numeric:tabular-nums;color:#0f172a;line-height:1}
+.score-den{font-size:.95rem;color:#64748b;font-weight:700}
+.score-mini{display:flex;gap:1.1rem;flex-wrap:wrap}
+.score-mini div{text-align:center}
+.score-mini b{display:block;font-size:1.05rem;color:#0f172a;font-variant-numeric:tabular-nums}
+.score-mini span{font-size:.64rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b;font-weight:700}
+.acta-q{border:1px solid #e2e8f0;border-radius:12px;padding:1rem;margin-bottom:.9rem;break-inside:avoid;page-break-inside:avoid}
+.q-head{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:.55rem}
+.q-num{width:1.6rem;height:1.6rem;border-radius:8px;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex:none}
+.verdict{margin-left:auto;font-size:.72rem;font-weight:800;padding:.15rem .55rem;border-radius:999px}
+.verdict.ok{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}
+.verdict.bad{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+.verdict.none{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+.q-text{font-weight:600;margin:0 0 .6rem;font-size:.95rem;color:#0f172a}
+.q-opt{display:flex;gap:.5rem;padding:.45rem .6rem;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:.35rem;font-size:.87rem;align-items:flex-start;color:#334155}
+.q-opt b{flex:none}
+.q-opt.good{border-color:#10b981;background:#ecfdf5}
+.q-opt.badpick{border-color:#ef4444;background:#fef2f2}
+.q-tag{font-size:.68rem;font-weight:800;white-space:nowrap;margin-left:auto;padding-left:.5rem}
+.q-tag.ok{color:#047857}.q-tag.bad{color:#b91c1c}
+.q-exp{margin-top:.55rem;background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;border-radius:8px;padding:.6rem .8rem;font-size:.82rem;color:#78350f;line-height:1.5}
+.sign-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-top:2.2rem}
+.sign{border-top:1px solid #334155;padding-top:.4rem;text-align:center;font-size:.72rem;color:#475569}
+.acta-foot{margin-top:1.1rem;font-size:.68rem;color:#94a3b8;text-align:center}
+#printRoot{display:none}
+@media print{
+  @page{margin:14mm}
+  body{background:#fff}
+  body.printing #app,body.printing #modalRoot,body.printing #toastRoot{display:none!important}
+  body.printing #printRoot{display:block!important}
+  .no-print{display:none!important}
+  .acta{border:none;padding:0;border-radius:0}
+  .acta-q{box-shadow:none}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.75}}
+html.no-tw .flex{display:flex}html.no-tw .grid{display:grid}
+html.no-tw .flex-col{flex-direction:column}html.no-tw .flex-wrap{flex-wrap:wrap}html.no-tw .flex-1{flex:1 1 0%}
+html.no-tw .items-center{align-items:center}html.no-tw .items-start{align-items:flex-start}
+html.no-tw .justify-between{justify-content:space-between}html.no-tw .justify-center{justify-content:center}html.no-tw .justify-end{justify-content:flex-end}
+html.no-tw .gap-2{gap:.5rem}html.no-tw .gap-3{gap:.75rem}html.no-tw .gap-4{gap:1rem}
+html.no-tw .grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+html.no-tw .w-full{width:100%}html.no-tw .text-center{text-align:center}
+html.no-tw .text-xs{font-size:.75rem;line-height:1.1rem}html.no-tw .text-sm{font-size:.875rem;line-height:1.3rem}
+html.no-tw .text-lg{font-size:1.125rem;line-height:1.6rem}html.no-tw .text-2xl{font-size:1.5rem;line-height:2rem}
+html.no-tw .font-semibold{font-weight:600}html.no-tw .font-bold{font-weight:700}html.no-tw .font-extrabold{font-weight:800}
+html.no-tw .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+html.no-tw .uppercase{text-transform:uppercase}html.no-tw .tracking-wide{letter-spacing:.025em}html.no-tw .leading-relaxed{line-height:1.625}
+html.no-tw .whitespace-nowrap{white-space:nowrap}html.no-tw .break-words{overflow-wrap:break-word}
+html.no-tw .mb-1{margin-bottom:.25rem}html.no-tw .mb-2{margin-bottom:.5rem}html.no-tw .mb-3{margin-bottom:.75rem}html.no-tw .mb-4{margin-bottom:1rem}
+html.no-tw .mt-1{margin-top:.25rem}html.no-tw .mt-2{margin-top:.5rem}html.no-tw .mt-3{margin-top:.75rem}html.no-tw .mt-4{margin-top:1rem}
+html.no-tw .p-4{padding:1rem}
+html.no-tw .text-slate-500{color:#64748b}html.no-tw .text-slate-600{color:#475569}
+html.no-tw .text-red-700{color:#b91c1c}html.no-tw .text-emerald-700{color:#047857}
+@media(min-width:768px){html.no-tw .md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<noscript><div style="background:#b91c1c;color:#fff;padding:1rem;text-align:center;font-family:sans-serif">Esta aplicación requiere JavaScript habilitado para funcionar.</div></noscript>
+<div id="app">
+
+  <header class="hero no-print">
+    <div class="head-inner">
+      <div class="flex items-center gap-3">
+        <div class="logo-box"><span data-icon="flame"></span></div>
+        <div>
+          <div id="hInst" class="hero-inst"></div>
+          <div id="hTipo" class="hero-sub"></div>
+          <div id="hCodigo" class="hero-code"></div>
+        </div>
+      </div>
+      <button type="button" id="btnTeacher" class="btn btn-glass btn-sm" data-action="teacher-open"><span data-icon="lock"></span>Panel Docente</button>
+    </div>
+  </header>
+  <div id="offlineNote" class="offline-note hidden"><span data-icon="alert"></span>Modo sin conexión: el CDN de Tailwind no está disponible; se aplicó la hoja de estilos de respaldo integrada. La aplicación funciona con normalidad.</div>
+
+  <main class="app-main">
+
+    <!-- ============ VISTA: INICIO / REGISTRO ============ -->
+    <section id="view-home">
+      <div class="card mb-4">
+        <div class="flex items-start gap-3">
+          <div class="logo-box logo-lg"><span data-icon="flame"></span></div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h1 id="heroTitle" class="text-2xl font-extrabold" style="margin:0;color:#0f172a"></h1>
+              <span id="heroDif" class="badge badge-info"></span>
+            </div>
+            <p id="heroDocente" class="text-sm text-slate-500 mt-1" style="margin-bottom:0"></p>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed" style="margin-bottom:0">Evaluación interactiva fundamentada en el material de Clase 2 y bibliografía técnica certificada (NFPA 921, SFPE Handbook, COVENIN), con sorteo aleatorio desde el banco en cada intento, cronómetro en pantalla, calificación 0,00–20,00, registro automático en Google Sheets y Acta de Resultado con retroalimentación.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="card">
+          <h2 class="card-title"><span data-icon="user"></span>Datos del participante</h2>
+          <form id="regForm" novalidate>
+            <div class="mb-3">
+              <label class="label" for="regNombre">Nombre y apellido *</label>
+              <input class="input" id="regNombre" maxlength="80" placeholder="Ej.: María Pérez" autocomplete="name">
+            </div>
+            <div class="mb-3">
+              <label class="label" for="regCedula">Cédula de identidad *</label>
+              <input class="input" id="regCedula" maxlength="14" placeholder="Ej.: V-12345678" inputmode="numeric" autocomplete="off">
+            </div>
+            <div class="mb-3">
+              <label class="label" for="regSeccion">Sección / cohorte (opcional)</label>
+              <input class="input" id="regSeccion" maxlength="40" placeholder="Ej.: Sección A · 2026-II">
+            </div>
+            <p id="regError" class="form-err hidden mb-3"></p>
+            <button type="submit" class="btn btn-primary w-full justify-center"><span data-icon="play"></span>Iniciar evaluación</button>
+            <p id="policyNote" class="text-xs text-slate-500 mt-2 leading-relaxed" style="margin-bottom:0"></p>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title"><span data-icon="file"></span>Ficha de la evaluación</h2>
+          <div class="flex flex-col gap-3">
+            <div class="flex items-start gap-3"><div class="ficha-ic"><span data-icon="list"></span></div><div><div class="ficha-k">Preguntas por intento / Banco</div><div id="fPreguntas" class="ficha-v"></div></div></div>
+            <div class="flex items-start gap-3"><div class="ficha-ic"><span data-icon="award"></span></div><div><div class="ficha-k">Nivel de dificultad</div><div id="fDificultad" class="ficha-v"></div></div></div>
+            <div class="flex items-start gap-3"><div class="ficha-ic"><span data-icon="eye"></span></div><div><div class="ficha-k">Retroalimentación</div><div id="fFeedback" class="ficha-v"></div></div></div>
+            <div class="flex items-start gap-3"><div class="ficha-ic"><span data-icon="clock"></span></div><div><div class="ficha-k">Tiempo límite</div><div id="fTiempo" class="ficha-v"></div></div></div>
+            <div class="flex items-start gap-3"><div class="ficha-ic"><span data-icon="chart"></span></div><div><div class="ficha-k">Escala y aprobación</div><div id="fEscala" class="ficha-v"></div></div></div>
+            <div class="flex items-start gap-3"><div class="ficha-ic"><span data-icon="shield"></span></div><div><div class="ficha-k">Política de intentos</div><div id="fPolitica" class="ficha-v"></div></div></div>
+          </div>
+          <div class="hint-box mt-4" id="homeInstructions"></div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <h2 class="card-title"><span data-icon="book"></span>Temas cubiertos por el banco de preguntas</h2>
+        <div id="moduleChips" class="flex flex-wrap gap-2"></div>
+      </div>
+    </section>
+
+    <!-- ============ VISTA: EXAMEN ============ -->
+    <section id="view-exam" class="hidden">
+      <div class="card mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-2">
+            <div class="ficha-ic"><span data-icon="user"></span></div>
+            <div>
+              <div id="exName" class="font-semibold"></div>
+              <div id="exCed" class="text-xs text-slate-500"></div>
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="ficha-k">Pregunta</div>
+            <div id="exPos" class="font-bold text-lg">1 / 10</div>
+          </div>
+          <div id="timerBox" class="timer"><span data-icon="clock"></span><span id="timerText">--:--</span></div>
+        </div>
+        <div class="progress mt-3"><div id="exBar" class="progress-fill"></div></div>
+      </div>
+
+      <div class="exam-grid">
+        <div>
+          <div class="card" id="qCard"></div>
+          <div class="flex justify-between gap-2 mt-3">
+            <button id="btnPrev" type="button" class="btn btn-ghost" data-action="exam-prev"><span data-icon="left"></span>Anterior</button>
+            <button id="btnNext" type="button" class="btn btn-dark" data-action="exam-next">Siguiente<span data-icon="right"></span></button>
+          </div>
+        </div>
+        <aside>
+          <div class="card">
+            <h2 class="card-title"><span data-icon="list"></span>Mapa de preguntas</h2>
+            <div id="palette" class="palette"></div>
+            <div class="pal-legend mt-3"><span><i class="dot dot-done"></i>Respondida</span><span><i class="dot"></i>Pendiente</span></div>
+            <p id="exCount" class="text-sm text-slate-600 mt-3 font-semibold"></p>
+            <button id="btnFinish" type="button" class="btn btn-success w-full justify-center mt-3" data-action="exam-finish"><span data-icon="check"></span>Finalizar evaluación</button>
+            <p class="text-xs text-slate-500 mt-3 leading-relaxed" style="margin-bottom:0">Atajos: A–D o 1–4 para responder; flechas ← → para navegar. El envío es definitivo.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ VISTA: ACTA DE RESULTADO ============ -->
+    <section id="view-result" class="hidden">
+      <div id="actaWrap"></div>
+      <div id="resultActions" class="flex flex-wrap gap-2 justify-center mt-4 no-print"></div>
+    </section>
+
+    <!-- ============ VISTA: PANEL DOCENTE ============ -->
+    <section id="view-teacher" class="hidden">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+        <h2 class="text-2xl font-extrabold flex items-center gap-2" style="margin:0"><span data-icon="shield"></span>Panel Docente</h2>
+        <div class="flex gap-2 flex-wrap">
+          <button id="btnTabRecords" type="button" class="tab active" data-action="t-tab" data-tab="records">Registros</button>
+          <button id="btnTabBank" type="button" class="tab" data-action="t-tab" data-tab="bank">Banco de preguntas</button>
+          <button id="btnTabConfig" type="button" class="tab" data-action="t-tab" data-tab="config">Configuración y seguridad</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-action="t-logout"><span data-icon="logout"></span>Salir</button>
+        </div>
+      </div>
+
+      <!-- Pestaña 1: Registros -->
+      <div id="tabRecords">
+        <div id="tStats" class="stats-grid mb-4"></div>
+        <div class="card">
+          <div class="flex flex-wrap gap-2 items-center mb-3">
+            <div class="grow-search"><input id="tSearch" class="input" placeholder="Buscar por nombre, cédula o sección…" autocomplete="off"></div>
+            <button type="button" class="btn btn-dark btn-sm" data-action="t-export"><span data-icon="download"></span>Exportar CSV (Excel)</button>
+            <button type="button" class="btn btn-danger btn-sm" data-action="t-clear"><span data-icon="trash"></span>Limpiar todo el registro</button>
+          </div>
+          <p class="text-xs text-slate-500 mb-2"><span id="tCount"></span> · Estadísticas calculadas sobre los intentos almacenados localmente.</p>
+          <div id="tTableWrap" class="tbl-wrap"></div>
+        </div>
+      </div>
+
+      <!-- Pestaña 2: Banco de preguntas (independiente de registros) -->
+      <div id="tabBank" class="hidden">
+        <div class="card mb-4">
+          <div class="flex flex-wrap gap-3 items-center justify-between mb-3">
+            <div>
+              <h3 class="card-title" style="margin-bottom:.2rem"><span data-icon="book"></span>Banco de preguntas completo y clave de respuestas</h3>
+              <p id="bankSummary" class="text-xs text-slate-500" style="margin:0"></p>
+            </div>
+            <div class="flex gap-2 flex-wrap" style="min-width:260px">
+              <select id="bankTemaFilter" class="select" style="width:auto;min-width:175px">
+                <option value="">Todos los temas</option>
+              </select>
+              <input id="bankSearch" class="input" style="width:auto;min-width:190px" placeholder="Buscar en preguntas, claves o fuentes…" autocomplete="off">
+            </div>
+          </div>
+          <div id="bankListWrap"></div>
+        </div>
+      </div>
+
+      <!-- Pestaña 3: Configuración y seguridad -->
+      <div id="tabConfig" class="hidden">
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="card">
+            <h2 class="card-title"><span data-icon="gear"></span>Parámetros de la evaluación</h2>
+            <form id="settingsForm">
+              <div class="label">Política de intentos</div>
+              <div class="flex flex-col gap-2 mb-3">
+                <label class="pol"><input type="radio" name="policy" value="multiple" id="polMultiple"><span class="pol-box"><span class="pol-t">Varios intentos</span><span class="pol-d">Permite reintentar hasta aprobar o mejorar la calificación; cada intento queda registrado.</span></span></label>
+                <label class="pol"><input type="radio" name="policy" value="unico" id="polUnico"><span class="pol-box"><span class="pol-t">Un solo registro por cédula</span><span class="pol-d">Bloquea nuevos intentos si la cédula ya tiene un registro guardado.</span></span></label>
+              </div>
+
+              <div class="label">Momento de retroalimentación</div>
+              <div class="flex flex-col gap-2 mb-3">
+                <label class="pol"><input type="radio" name="feedbackMode" value="final" id="fbFinal"><span class="pol-box"><span class="pol-t">Al final (en el resumen/acta tras enviar)</span><span class="pol-d">Muestra correcciones y retroalimentación al terminar y enviar la evaluación.</span></span></label>
+                <label class="pol"><input type="radio" name="feedbackMode" value="durante" id="fbDurante"><span class="pol-box"><span class="pol-t">Durante el cuestionario (en cada respuesta)</span><span class="pol-d">Indica de inmediato si cada respuesta seleccionada es correcta o incorrecta y muestra su explicación.</span></span></label>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 mb-3">
+                <div><label class="label" for="setMin">Tiempo (minutos)</label><input class="input" type="number" id="setMin" min="1" max="120" step="1"></div>
+                <div><label class="label" for="setPass">Nota mínima aprobatoria</label><input class="input" type="number" id="setPass" min="0" max="20" step="0.5"></div>
+              </div>
+              <p class="text-xs text-slate-500 mb-3">Los cambios aplican a los próximos exámenes iniciados.</p>
+              <button type="submit" class="btn btn-primary"><span data-icon="save"></span>Guardar configuración</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2 class="card-title"><span data-icon="key"></span>Seguridad docente</h2>
+            <form id="passForm">
+              <div class="mb-3"><label class="label" for="pCur">Clave actual</label><input class="input" type="password" id="pCur" autocomplete="current-password"></div>
+              <div class="mb-3"><label class="label" for="pNew">Nueva clave (mínimo 6 caracteres)</label><input class="input" type="password" id="pNew" autocomplete="new-password"></div>
+              <div class="mb-3"><label class="label" for="pConf">Confirmar nueva clave</label><input class="input" type="password" id="pConf" autocomplete="new-password"></div>
+              <button type="submit" class="btn btn-dark"><span data-icon="lock"></span>Cambiar clave</button>
+              <p class="text-xs text-slate-500 mt-2" style="margin-bottom:0">La clave se almacena como hash en este navegador. Clave inicial de fábrica: <b>123456</b>.</p>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2 class="card-title"><span data-icon="database"></span>Datos y mantenimiento</h2>
+            <p class="text-sm text-slate-600 leading-relaxed mb-3">Persistencia dual local + envío automático a Google Sheets al finalizar. Registros locales actuales: <b id="tDangerCount">0</b>.</p>
+            <div class="flex gap-2 flex-wrap">
+              <button type="button" class="btn btn-dark btn-sm" data-action="t-export"><span data-icon="download"></span>Exportar CSV</button>
+              <button type="button" class="btn btn-danger btn-sm" data-action="t-clear"><span data-icon="trash"></span>Limpiar todo</button>
+            </div>
+            <p class="text-xs text-slate-500 mt-3" style="margin-bottom:0">«Limpiar todo» exige doble confirmación (aviso + escribir LIMPIAR). Exporte el CSV antes de borrar.</p>
+          </div>
+
+          <div class="card">
+            <h2 class="card-title"><span data-icon="book"></span>Resumen del banco</h2>
+            <div id="bankInfo"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer no-print">
+    <div><b id="fInst"></b> · <span id="fTipo"></span> · <span id="fCodigo"></span></div>
+    <div class="mt-1">Sistema de evaluación autocontenido · Banco aleatorio + Google Sheets + GitHub Pages · v2.1</div>
+  </footer>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toastRoot"></div>
+<div id="printRoot"></div>
+
+<script>
+'use strict';
+/* ================================================================
+   1) VARIABLES PERSONALIZABLES — CONFIGURACIÓN GENERAL
+   ================================================================ */
+const CONFIG = {
+  institucion: 'CBBU IUTEMAR',
+  institucionLarga: 'Cuerpo de Bomberos y Bomberas Universitario · IUTEMAR Guayana',
+  tipoDocumento: 'Seguridad Industrial · Preparación Contra Incendios',
+  codigoMateria: 'Clase 2 — Elementos del Fuego y Transferencia de Calor',
+  docente: 'Sgto. I (B) (BU) Ing. Pedro Márquez · Primer Comandante CBBU IUTEMAR',
+  nivelDificultad: 'Intermedio · Técnico-Operativo',
+  preguntasPorExamen: 10,          // Cantidad de preguntas sorteadas al azar en cada intento
+  totalBancoPreguntas: 24,         // Tamaño objetivo del banco de preguntas
+  retroalimentacion: 'final',      // 'durante' (en cada respuesta) | 'final' (en el resumen/acta tras enviar)
+  escalaMaxima: 20,
+  tiempoMinutos: 15,
+  notaMinimaAprobatoria: 10,
+  claveDocenteInicial: '123456',
+  politicaInicial: 'multiple',     // 'multiple' | 'unico'
+  googleSheetUrl: 'https://script.google.com/macros/s/AKfycbxsBt3fKGqDymUwdFnMdlep39Z4OKi2bLhzkK2oIRtTRTdWkwxd8prGbfnYgB5DLXNP/exec'
+};
+
+/* ================================================================
+   2) ICONOS SVG INLINE
+   ================================================================ */
+const ICONS = {
+  flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  check:'<polyline points="20 6 9 17 4 12"/>',
+  x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  alert:'<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  info:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>',
+  chart:'<path d="M3 3v18h18"/><line x1="18" y1="17" x2="18" y2="9"/><line x1="13" y1="17" x2="13" y2="5"/><line x1="8" y1="17" x2="8" y2="14"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+  trash:'<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>',
+  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  key:'<path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+  printer:'<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
+  left:'<polyline points="15 18 9 12 15 6"/>',
+  right:'<polyline points="9 18 15 12 9 6"/>',
+  eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  refresh:'<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>',
+  save:'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>',
+  home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  award:'<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+  list:'<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
+  play:'<polygon points="5 3 19 12 5 21 5 3"/>',
+  database:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>'
+};
+function icon(name, cls){ return '<svg class="ic '+(cls||'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[name]||'')+'</svg>'; }
+
+/* ================================================================
+   3) UTILIDADES
+   ================================================================ */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const L = ['a','b','c','d'];
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function pad2(n){ return String(n).padStart(2,'0'); }
+function fmtNota(n){ return (Math.round((Number(n)+Number.EPSILON)*100)/100).toFixed(2).replace('.',','); }
+function fmtDur(seg){ seg=Math.max(0,Math.round(seg)); return pad2(Math.floor(seg/60))+':'+pad2(seg%60); }
+function uid(){ return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9); }
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function clamp(v,min,max){ return Math.min(max,Math.max(min,v)); }
+function fechaHora(){ const d=new Date(); return { iso:d.toISOString(), fecha:pad2(d.getDate())+'/'+pad2(d.getMonth()+1)+'/'+d.getFullYear(), hora:pad2(d.getHours())+':'+pad2(d.getMinutes())+':'+pad2(d.getSeconds()) }; }
+function normCedula(raw){
+  const up=String(raw||'').toUpperCase().replace(/[^VE0-9]/g,'');
+  const m=up.match(/^([VE])?(\d{5,9})$/);
+  if(!m) return null;
+  return { key:m[2], display:(m[1]||'V')+'-'+m[2] };
+}
+function simpleHash(str){
+  const SALT='CBBU-IUTEMAR::Clase2T1::v21';
+  const s=SALT+String(str)+SALT;
+  let h1=0x811c9dc5>>>0, h2=0x9e3779b9>>>0;
+  for(let i=0;i<s.length;i++){
+    const c=s.charCodeAt(i);
+    h1=(h1^c)>>>0; h1=Math.imul(h1,0x01000193)>>>0;
+    h2=(Math.imul(h2^c,0x85ebca6b)+((h2<<5)>>>0)+i)>>>0;
+  }
+  for(let r=0;r<3;r++){
+    h1=Math.imul(h1^(h2>>>13),0xc2b2ae35)>>>0;
+    h2=Math.imul(h2^(h1>>>11),0x27d4eb2f)>>>0;
+  }
+  const hex=n=>('00000000'+(n>>>0).toString(16)).slice(-8);
+  return hex(h1)+hex(h2);
+}
+
+/* ================================================================
+   4) PERSISTENCIA
+   ================================================================ */
+const K={ records:'cbbu_c2t1_records_v21', settings:'cbbu_c2t1_settings_v21', active:'cbbu_c2t1_active_v21' };
+const memStore={};
+function saveJSON(key,val){
+  const s=JSON.stringify(val); memStore[key]=s; let ok=false;
+  try{ localStorage.setItem(key,s); ok=true; }catch(e){}
+  try{ sessionStorage.setItem(key,s); }catch(e){}
+  if(!ok && !state.storageWarned){ state.storageWarned=true; toast('Almacenamiento local limitado: los datos persistirán en esta sesión.','warn'); }
+}
+function loadJSON(key,fallback){
+  let raw=null;
+  try{ raw=localStorage.getItem(key); }catch(e){}
+  if(raw==null){ try{ raw=sessionStorage.getItem(key); }catch(e){} }
+  if(raw==null) raw=memStore[key]||null;
+  if(raw==null) return fallback;
+  try{ return JSON.parse(raw); }catch(e){ return fallback; }
+}
+function saveActive(){ try{ sessionStorage.setItem(K.active, JSON.stringify(state.exam)); }catch(e){} }
+function clearActive(){ try{ sessionStorage.removeItem(K.active); }catch(e){} }
+function loadActive(){ try{ const s=sessionStorage.getItem(K.active); return s?JSON.parse(s):null; }catch(e){ return null; } }
+function persistRecords(){ saveJSON(K.records, state.records); }
+function persistSettings(){ saveJSON(K.settings, state.settings); }
+function defaultSettings(){
+  return {
+    policy:CONFIG.politicaInicial,
+    feedbackMode:CONFIG.retroalimentacion,
+    minutes:CONFIG.tiempoMinutos,
+    passNote:CONFIG.notaMinimaAprobatoria,
+    pwdHash:simpleHash(CONFIG.claveDocenteInicial)
+  };
+}
+
+/* ================================================================
+   5) ESTADO GLOBAL
+   ================================================================ */
+const state={
+  settings:defaultSettings(),
+  records:[],
+  exam:null,
+  pendingResume:null,
+  lastRecord:null,
+  teacher:false,
+  tTab:'records',
+  tSearch:'',
+  bankTema:'',
+  bankSearch:'',
+  view:'home',
+  timerId:null,
+  modalOpen:false,
+  modalClose:null,
+  loginFails:0,
+  loginLockUntil:0,
+  storageWarned:false
+};
+
+/* ================================================================
+   6) BANCO DE PREGUNTAS (24 ÍTEMS) — CLASE 2 (clase 2_2.pdf)
+   Fundamentado en el PDF y en bibliografía técnica certificada
+   (NFPA 921, SFPE Handbook of Fire Protection Engineering, COVENIN).
+   ================================================================ */
+const FULL_BANK=[
+{ id:1, tema:'Triángulo y tetraedro del fuego', p:'¿Qué tres elementos conforman el triángulo del fuego según la Clase 2 y la teoría básica de combustión?',
+  ok:'Calor (energía de activación), combustible y comburente (normalmente oxígeno)',
+  bad:['Combustible, humo y reacción en cadena','Calor, ceniza y presión atmosférica','Oxígeno, vapor de agua y llama'],
+  exp:'El triángulo del fuego representa los tres factores básicos para iniciar una combustión: combustible, comburente y calor. [Ref.: Clase 2; NFPA 921, Fire and Explosion Investigations].' },
+{ id:2, tema:'Triángulo y tetraedro del fuego', p:'¿Cuál es el cuarto elemento que incorpora el tetraedro del fuego respecto al triángulo del fuego?',
+  ok:'La reacción en cadena',
+  bad:['El humo condensado','La presión hidrostática','El nitrógeno atmosférico'],
+  exp:'El tetraedro del fuego añade la reacción en cadena a los tres lados del triángulo para explicar la combustión con llama autosostenida y su inhibición química. [Ref.: Clase 2; NFPA 921; SFPE Handbook].' },
+{ id:3, tema:'Triángulo y tetraedro del fuego', p:'Según el modelo del tetraedro del fuego, ¿qué sucede si se elimina cualquiera de sus cuatro elementos?',
+  ok:'La combustión se interrumpe y el fuego se extingue',
+  bad:['El fuego se vuelve incandescente sin consumir combustible','Aumenta la reacción en cadena sin necesidad de calor','Solo cambia el color de la llama'],
+  exp:'La extinción de un fuego se logra eliminando o separando alguno de los elementos esenciales (combustible, comburente, calor o reacción en cadena). [Ref.: Clase 2; NFPA 921].' },
+{ id:4, tema:'Combustibles y fases de combustión', p:'¿Cómo se define un combustible en la Clase 2?',
+  ok:'Cualquier sustancia capaz de arder en determinadas condiciones o sufrir una rápida oxidación',
+  bad:['Únicamente un líquido inflamable a presión','Cualquier gas que impide la oxidación','Solo un sólido metálico incombustible'],
+  exp:'Un combustible es cualquier material o sustancia capaz de oxidarse rápidamente (arder) en presencia de un comburente y energía suficiente. [Ref.: Clase 2; SFPE Handbook].' },
+{ id:5, tema:'Combustibles y fases de combustión', p:'¿En qué tres estados físicos principales se presentan los combustibles según la Clase 2?',
+  ok:'Sólido, líquido y gaseoso',
+  bad:['Sólido, coloidal y cristalino','Líquido, gaseoso y plasmático','Sólido, vítreo y saturado'],
+  exp:'Los combustibles se clasifican por su estado físico en sólidos, líquidos y gaseosos, cada uno con mecanismos particulares de liberación de vapores o contacto superficial. [Ref.: Clase 2; NFPA 921].' },
+{ id:6, tema:'Combustibles y fases de combustión', p:'En el esquema de combustión "CON LLAMA" del material de Clase 2, ¿qué proceso experimenta un combustible sólido para liberar vapores?',
+  ok:'Destilación pirolítica (pirólisis)',
+  bad:['Condensación atmosférica','Sublimación inversa en frío','Decantación gravimétrica'],
+  exp:'En los combustibles sólidos, la descomposición térmica por calor (pirólisis / destilación pirolítica) genera gases y vapores combustibles que se mezclan con el oxígeno para arder con llama. [Ref.: Clase 2; NFPA 921].' },
+{ id:7, tema:'Combustibles y fases de combustión', p:'Según el esquema de combustión "CON LLAMA" de la Clase 2, ¿qué proceso físico permite que un combustible líquido pase a vapor?',
+  ok:'Vaporización',
+  bad:['Solidificación','Pirólisis cristalina','Filtración'],
+  exp:'Los combustibles líquidos producen vapores inflamables mediante vaporización (o evaporación/ebullición), los cuales se difunden con el oxígeno para sostener la llama. [Ref.: Clase 2; SFPE Handbook].' },
+{ id:8, tema:'Combustibles y fases de combustión', p:'En el esquema de combustión "SIN LLAMA (Incandescente)" de la Clase 2, ¿cómo ocurre la reacción en un sólido?',
+  ok:'Directamente en la superficie de contacto con el oxígeno, con realimentación de radiación',
+  bad:['Únicamente en fase gaseosa lejos del sólido','Sin intervención de oxígeno ni calor','Mediante vaporización previa en tanque'],
+  exp:'En la combustión incandescente sin llama (como carbón o brasas), la oxidación ocurre en la superficie de contacto del sólido con el oxígeno, realimentada por radiación térmica. [Ref.: Clase 2; NFPA 921].' },
+{ id: 9, tema:'Comburente y atmósferas de riesgo', p:'¿Cuál es el papel del comburente en una reacción de combustión?',
+  ok:'Actuar como el elemento (normalmente oxígeno) que oxida al combustible y permite que arda',
+  bad:['Enfriar el combustible por debajo de su punto de fusión','Inhibir las reacciones químicas en cadena','Aumentar la masa molecular del combustible'],
+  exp:'El comburente es el agente oxidante (usualmente oxígeno, O2) en cuya presencia el combustible puede oxidarse y arder. [Ref.: Clase 2; NFPA 921].' },
+{ id: 10, tema:'Comburente y atmósferas de riesgo', p:'¿Cuál es la proporción ideal de oxígeno (O2) indicada en la Clase 2?',
+  ok:'21 %',
+  bad:['14 %','26 %','78 %'],
+  exp:'La proporción ideal de oxígeno en el aire atmosférico se indica en 21 %, mientras que el nitrógeno constituye la mayor fracción restante. [Ref.: Clase 2; SFPE Handbook].' },
+{ id: 11, tema:'Comburente y atmósferas de riesgo', p:'Según la diapositiva de la Clase 2 sobre el triángulo del fuego, ¿entre qué valores de O2 se señala que puede haber riesgo de incendio?',
+  ok:'Por arriba del 14 % y por debajo del 26 %',
+  bad:['Por debajo del 5 % exclusivamente','Por arriba del 50 % únicamente','Entre 0 % y 10 %'],
+  exp:'El material de Clase 2 indica que, siendo 21 % la proporción ideal de O2, puede haber riesgo de incendio en atmósferas por encima del 14 % y por debajo del 26 %. [Ref.: Clase 2; NFPA 921].' },
+{ id: 12, tema:'Energía de activación y reacción en cadena', p:'¿Qué se define como energía de activación en la Clase 2?',
+  ok:'La energía (calor) necesaria para que combustible y comburente reaccionen e inicien la combustión',
+  bad:['El humo visible producido tras apagar el fuego','La cantidad total de oxígeno en la atmósfera','La presión ejercida por un chorro de agua'],
+  exp:'La energía de activación es el aporte térmico inicial requerido para iniciar la reacción química entre combustible y comburente. [Ref.: Clase 2; SFPE Handbook].' },
+{ id: 13, tema:'Energía de activación y reacción en cadena', p:'¿Qué es la reacción en cadena según la Clase 2?',
+  ok:'El proceso mediante el cual progresa la reacción en el seno de una mezcla comburente-combustible',
+  bad:['La extinción de un incendio por dilución','El enfriamiento de una superficie metálica','La separación física de un líquido inflamable'],
+  exp:'La reacción en cadena describe cómo la reacción exotérmica propaga y sostiene la combustión dentro de la mezcla combustible-comburente. [Ref.: Clase 2; NFPA 921].' },
+{ id: 14, tema:'Energía de activación y reacción en cadena', p:'En el diagrama de combustión "CON LLAMA" de la Clase 2, ¿qué secuencia conduce a las reacciones en cadena no inhibidas?',
+  ok:'Generación de vapor/gas, difusión con oxígeno, reignición continua y reacciones en cadena no inhibidas',
+  bad:['Solidificación, enfriamiento, extinción y condensación','Filtración, decantación, reposo y ventilación','Inhibición química, reducción de calor y apagado'],
+  exp:'El diagrama de la Clase 2 muestra la realimentación por radiación, la formación de vapores/gases, la difusión con oxígeno y la reignición continua que sostienen reacciones en cadena no inhibidas. [Ref.: Clase 2; NFPA 921].' },
+{ id: 15, tema:'Transferencia de calor', p:'¿Cuáles son las tres formas de transferencia de calor presentadas en la Clase 2?',
+  ok:'Conducción, convección y radiación',
+  bad:['Conducción, evaporación y condensación','Convección, filtración y difusión','Radiación, sublimación y oxidación'],
+  exp:'El calor se transfiere mediante tres mecanismos fundamentales: conducción, convección y radiación. [Ref.: Clase 2; SFPE Handbook; NFPA 921].' },
+{ id: 16, tema:'Transferencia de calor', p:'Según la diapositiva de CONDUCCIÓN de la Clase 2, ¿en qué tipo de combustibles se produce este mecanismo?',
+  ok:'En combustibles sólidos',
+  bad:['Exclusivamente en gases licuados','Únicamente en el vacío sin materia','Solo en vapores refrigerados'],
+  exp:'La clase destaca que la conducción se produce en combustibles sólidos, transmitiéndose el calor a través del material. [Ref.: Clase 2; SFPE Handbook].' },
+{ id: 17, tema:'Transferencia de calor', p:'Según la diapositiva de CONVECCIÓN de la Clase 2, ¿en qué medios o combustibles se produce?',
+  ok:'En combustibles líquidos y gases',
+  bad:['Únicamente en sólidos rígidos sin movimiento','Solo mediante ondas electromagnéticas en el vacío','En superficies congeladas'],
+  exp:'La convección ocurre por el movimiento de fluidos (líquidos y gases) que transportan el calor, como se ilustra en la clase para líquidos y gases. [Ref.: Clase 2; SFPE Handbook; NFPA 921].' },
+{ id: 18, tema:'Transferencia de calor', p:'Según la diapositiva de RADIACIÓN de la Clase 2, ¿cómo se produce esta forma de transferencia de calor?',
+  ok:'Por la propagación de ondas electromagnéticas',
+  bad:['Por contacto directo entre partículas de un sólido','Por circulación de agua fría','Por evaporación de un gas inerte'],
+  exp:'La radiación transfiere energía térmica mediante ondas electromagnéticas, pudiendo afectar a materiales y personas a distancia. [Ref.: Clase 2; SFPE Handbook].' },
+{ id: 19, tema:'Fuego vs. Incendio', p:'¿Cuál es la distinción clave entre "fuego" e "incendio" trabajada en la Clase 2?',
+  ok:'El fuego es una combustión controlada y localizada, mientras que el incendio es una combustión no controlada y dañina',
+  bad:['El incendio siempre es controlado y seguro, y el fuego es destructivo','No existe diferencia entre fuego e incendio en seguridad contra incendios','El fuego ocurre sin calor y el incendio sin comburente'],
+  exp:'En la práctica operativa y docente de la Clase 2, se distingue el fuego controlado (p. ej., una hornilla o antorcha controlada) del incendio, que es descontrolado y genera daños o riesgo. [Ref.: Clase 2; NFPA 921].' },
+{ id: 20, tema:'Fuego vs. Incendio', p:'De acuerdo con los ejemplos de "¿Fuego o Incendio?" en la Clase 2, ¿cuál corresponde a un INCENDIO?',
+  ok:'Un incendio estructural o vehicular fuera de control con humo y llamas propagándose',
+  bad:['Una llama controlada en una cocina para preparar alimentos','Una quema controlada y supervisada de residuos en campo abierto','Una antorcha o mechero controlado'],
+  exp:'En los ejemplos de la Clase 2, los siniestros descontrolados (como un incendio estructural o de vehículo) se clasifican como incendio, a diferencia de las llamas controladas. [Ref.: Clase 2; NFPA 921].' },
+{ id: 21, tema:'Fuego vs. Incendio', p:'De acuerdo con los ejemplos de "¿Fuego o Incendio?" en la Clase 2, ¿cuál se identifica como FUEGO?',
+  ok:'Una combustión controlada, como una llama regulada en cocina o una combustión controlada',
+  bad:['Un incendio de gran magnitud en una edificación','Un vehículo envuelto en llamas sin control','Una sartén ardiendo sin control con propagación'],
+  exp:'La clase identifica como fuego las situaciones de combustión controlada y localizada, diferenciándolas de las escenas de incendio. [Ref.: Clase 2; NFPA 921].' },
+{ id: 22, tema:'Triángulo y tetraedro del fuego', p:'¿Por qué la incorporación de la reacción en cadena al tetraedro del fuego es relevante en prevención y extinción?',
+  ok:'Porque explica cómo se autosostiene la combustión y permite usar agentes que interrumpen la cadena química',
+  bad:['Porque elimina la necesidad de estudiar el combustible','Porque impide que el calor se propague por radiación','Porque convierte el oxígeno en un sólido'],
+  exp:'Entender la reacción en cadena permite comprender por qué la combustión continúa tras la ignición inicial y cómo ciertos agentes extintores actúan interfiriendo en la reacción. [Ref.: Clase 2; NFPA 921; SFPE Handbook].' },
+{ id: 23, tema:'Transferencia de calor', p:'En una edificación en llamas, ¿qué papel cumple la radiación térmica en el esquema de combustión de la Clase 2?',
+  ok:'Realimenta térmicamente al combustible para mantener la generación de vapores o la incandescencia',
+  bad:['Detiene la vaporización de los líquidos combustibles','Reduce a cero la temperatura de las superficies cercanas','Sustituye la presencia de comburente'],
+  exp:'La realimentación por radiación aporta calor adicional hacia la superficie combustible, favoreciendo la pirólisis/vaporización y la continuidad de la combustión. [Ref.: Clase 2; NFPA 921; SFPE Handbook].' },
+{ id: 24, tema:'Comburente y atmósferas de riesgo', p:'¿Qué sucede si se reduce o desplaza el oxígeno en la zona de combustión?',
+  ok:'Se dificulta o extingue la oxidación rápida del combustible al faltar comburente suficiente',
+  bad:['Aumenta automáticamente la velocidad de reacción en cadena','Se duplica el porcentaje de oxígeno atmosférico','El combustible se vuelve inmune al calor'],
+  exp:'Sin suficiente comburente (oxígeno) para oxidar al combustible, la combustión no puede mantenerse y tiende a extinguirse. [Ref.: Clase 2; NFPA 921].' }
+];
+
+function getBank(){
+  const n = clamp(parseInt(CONFIG.totalBancoPreguntas,10) || FULL_BANK.length, 1, FULL_BANK.length);
+  return FULL_BANK.slice(0, n);
+}
+
+/* ================================================================
+   7) RENDERIZADO DE ENCABEZADO, PIE Y VISTA DE INICIO
+   ================================================================ */
+function renderHeader(){
+  document.title='Evaluación · '+CONFIG.codigoMateria+' · '+CONFIG.institucion;
+  $('#hInst').textContent=CONFIG.institucion;
+  $('#hTipo').textContent=CONFIG.tipoDocumento;
+  $('#hCodigo').textContent=CONFIG.codigoMateria;
+  $('#heroTitle').textContent=CONFIG.codigoMateria+' — Evaluación';
+  $('#heroDif').textContent='Dificultad: '+CONFIG.nivelDificultad;
+  $('#heroDocente').textContent=CONFIG.docente;
+  $('#fInst').textContent=CONFIG.institucion;
+  $('#fTipo').textContent=CONFIG.tipoDocumento;
+  $('#fCodigo').textContent=CONFIG.codigoMateria;
+}
+function moduleCounts(){
+  const c={};
+  getBank().forEach(function(b){ c[b.tema]=(c[b.tema]||0)+1; });
+  return c;
+}
+function renderHome(){
+  const bank=getBank();
+  const qCount=Math.min(CONFIG.preguntasPorExamen, bank.length);
+  const isLive = state.settings.feedbackMode==='durante';
+  $('#fPreguntas').textContent=qCount+' sorteadas al azar por intento · Banco de '+bank.length+' preguntas';
+  $('#fDificultad').textContent=CONFIG.nivelDificultad;
+  $('#fFeedback').innerHTML=isLive
+    ? '<span class="badge badge-info">Durante el cuestionario (en cada respuesta)</span>'
+    : '<span class="badge badge-ok">Al final (en el resumen / acta al enviar)</span>';
+  $('#fTiempo').textContent=state.settings.minutes+' minutos (cronómetro en pantalla y envío automático)';
+  $('#fEscala').textContent='Escala 0,00–'+fmtNota(CONFIG.escalaMaxima)+' · Aprobado ≥ '+fmtNota(state.settings.passNote)+' pts';
+  const uni=state.settings.policy==='unico';
+  $('#fPolitica').innerHTML=uni?'<span class="badge badge-warn">Un solo registro por cédula</span>':'<span class="badge badge-ok">Varios intentos permitidos</span>';
+  $('#policyNote').textContent=uni
+    ? 'Política activa: cada cédula puede registrar UN único intento.'
+    : 'Política activa: puede realizar nuevos intentos; en cada intento se sortean nuevas preguntas del banco y cada resultado queda registrado.';
+  $('#homeInstructions').innerHTML=isLive
+    ? '<b>Instrucciones:</b> seleccione una opción (a–d) en cada pregunta. Al responder, verá de inmediato si su respuesta fue correcta o incorrecta y su explicación bibliográfica. Si recarga la página, podrá reanudar su intento.'
+    : '<b>Instrucciones:</b> seleccione una opción (a–d) por pregunta y navegue libremente antes de enviar. Al finalizar, verá su calificación, el resumen completo y la retroalimentación. Si recarga la página, podrá reanudar su intento.';
+  $('#moduleChips').innerHTML=Object.entries(moduleCounts()).map(function(e){ return '<span class="chip chip-fire">'+esc(e[0])+' · '+e[1]+'</span>'; }).join('');
+}
+function showView(name){
+  state.view=name;
+  ['home','exam','result','teacher'].forEach(function(v){ $('#view-'+v).classList.toggle('hidden', v!==name); });
+  $('#btnTeacher').classList.toggle('hidden', name==='exam');
+  window.scrollTo({top:0,behavior:'auto'});
+}
+
+/* ================================================================
+   8) MOTOR DE EVALUACIÓN
+   ================================================================ */
+function buildExam(student){
+  const bank=getBank();
+  const count=Math.min(CONFIG.preguntasPorExamen, bank.length);
+  const picked=shuffle(bank).slice(0, count);
+  const qs=picked.map(function(q){
+    const opts=shuffle([q.ok].concat(q.bad));
+    return { id:q.id, tema:q.tema, p:q.p, opts:opts, correct:opts.indexOf(q.ok), exp:q.exp };
+  });
+  const minutes=state.settings.minutes;
+  return {
+    student:student,
+    qs:qs,
+    answers:new Array(qs.length).fill(null),
+    idx:0,
+    startAt:Date.now(),
+    endAt:Date.now()+minutes*60000,
+    minutes:minutes,
+    passNote:state.settings.passNote,
+    policy:state.settings.policy,
+    feedbackMode:state.settings.feedbackMode,
+    submitted:false
+  };
+}
+function onRegister(){
+  const nombre=$('#regNombre').value.trim().replace(/\s+/g,' ');
+  const seccion=$('#regSeccion').value.trim();
+  const ced=normCedula($('#regCedula').value);
+  const err=function(m){ const el=$('#regError'); el.textContent=m; el.classList.remove('hidden'); toast(m,'err'); };
+  $('#regError').classList.add('hidden');
+  if(nombre.length<3 || !/[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]/.test(nombre)) return err('Ingrese nombre y apellido válidos (mínimo 3 caracteres con letras).');
+  if(!ced) return err('Cédula inválida. Use entre 5 y 9 dígitos, con prefijo V o E opcional. Ej.: V-12345678.');
+  if(seccion.length>40) return err('La sección/cohorte es demasiado larga (máximo 40 caracteres).');
+  if(state.settings.policy==='unico'){
+    const prev=state.records.filter(function(r){ return r.cedulaKey===ced.key; });
+    if(prev.length){
+      const last=prev[prev.length-1];
+      openModal(
+        '<div class="modal-head"><div class="modal-title">'+icon('alert')+'<span>Registro único por cédula</span></div><button type="button" class="modal-x" data-action="modal-x" aria-label="Cerrar">'+icon('x')+'</button></div>'+
+        '<div class="modal-body"><p class="text-sm leading-relaxed mb-3">La política vigente permite <b>un solo registro por cédula</b>. La cédula <b>'+esc(ced.display)+'</b> ya tiene un intento registrado:</p>'+
+        '<div class="hint-box mb-3">Fecha: '+esc(last.fecha)+' '+esc(last.hora)+' · Nota: <b>'+fmtNota(last.nota)+'</b> · '+esc(last.estado)+'</div>'+
+        '<div class="flex justify-end"><button type="button" class="btn btn-dark" data-action="modal-x">Entendido</button></div></div>');
+      return;
+    }
+  }
+  startExam({ nombre:nombre, cedula:ced.display, cedulaKey:ced.key, seccion:seccion });
+  toast('Evaluación iniciada. ¡Éxito!','ok');
+}
+function startExam(student){
+  state.exam=buildExam(student); saveActive();
+  showView('exam');
+  $('#exName').textContent=student.nombre;
+  $('#exCed').textContent=student.cedula+(student.seccion?' · '+student.seccion:'');
+  renderQuestion(); renderPalette(); startTimer();
+}
+function liveFeedbackHTML(q, sel){
+  if(state.exam.feedbackMode!=='durante' || sel==null) return '';
+  const isOk = sel === q.correct;
+  return '<div class="live-fb '+(isOk?'ok':'bad')+'">'+
+    '<div class="font-extrabold mb-1">'+(isOk ? '✓ Respuesta correcta' : '✗ Respuesta incorrecta — Correcta: '+L[q.correct]+') '+esc(q.opts[q.correct]))+'</div>'+
+    '<div>'+esc(q.exp)+'</div>'+
+  '</div>';
+}
+function renderQuestion(){
+  const ex=state.exam; if(!ex) return;
+  const q=ex.qs[ex.idx], sel=ex.answers[ex.idx];
+  const pts=fmtNota(CONFIG.escalaMaxima/ex.qs.length);
+  const isLive = ex.feedbackMode==='durante';
+  const locked = isLive && sel!=null;
+  $('#qCard').innerHTML=
+    '<div class="flex items-center justify-between flex-wrap gap-2 mb-3">'+
+      '<span class="chip chip-fire">'+icon('book')+esc(q.tema)+'</span>'+
+      '<span class="chip">'+icon('award')+'Vale '+pts+' pts</span>'+
+    '</div>'+
+    '<p class="text-xs text-slate-500 font-bold uppercase tracking-wide mb-1">Pregunta '+(ex.idx+1)+'</p>'+
+    '<h3 class="text-lg font-semibold leading-relaxed mb-4" style="margin-top:0">'+esc(q.p)+'</h3>'+
+    '<div class="flex flex-col gap-2" id="optList">'+
+      q.opts.map(function(o,i){
+        let extraCls='';
+        if(sel===i) extraCls+=' sel';
+        if(isLive && sel!=null){
+          if(i===q.correct) extraCls+=' live-ok';
+          else if(i===sel && sel!==q.correct) extraCls+=' live-bad';
+        }
+        return '<button type="button" class="opt'+extraCls+'" data-action="opt" data-idx="'+i+'"'+(locked?' disabled':'')+'>'+
+          '<span class="opt-letter">'+L[i]+'</span><span class="break-words">'+esc(o)+'</span></button>';
+      }).join('')+
+    '</div>'+
+    '<div id="liveFbBox">'+liveFeedbackHTML(q, sel)+'</div>';
+  $('#btnPrev').disabled=(ex.idx===0);
+  const last=(ex.idx===ex.qs.length-1);
+  $('#btnNext').innerHTML=last?(icon('check')+'Finalizar'):('Siguiente'+icon('right'));
+  $('#exPos').textContent=(ex.idx+1)+' / '+ex.qs.length;
+}
+function renderPalette(){
+  const ex=state.exam; if(!ex) return;
+  $('#palette').innerHTML=ex.qs.map(function(q,i){
+    return '<button type="button" class="pal'+(ex.answers[i]!=null?' done':'')+(i===ex.idx?' cur':'')+'" data-action="pal" data-idx="'+i+'" aria-label="Ir a la pregunta '+(i+1)+'">'+(i+1)+'</button>';
+  }).join('');
+  const n=ex.answers.filter(function(a){ return a!=null; }).length;
+  $('#exCount').textContent=n+' de '+ex.qs.length+' respondidas';
+  $('#exBar').style.width=(n/ex.qs.length*100)+'%';
+}
+function selectOpt(i){
+  const ex=state.exam; if(!ex||ex.submitted||i<0||i>3) return;
+  if(ex.feedbackMode==='durante' && ex.answers[ex.idx]!=null) return;
+  ex.answers[ex.idx]=i; saveActive();
+  if(ex.feedbackMode==='durante'){
+    renderQuestion();
+  }else{
+    $$('#optList .opt').forEach(function(b,j){ b.classList.toggle('sel', j===i); });
+  }
+  renderPalette();
+}
+function startTimer(){ stopTimer(); tick(); state.timerId=setInterval(tick,1000); }
+function stopTimer(){ if(state.timerId){ clearInterval(state.timerId); state.timerId=null; } }
+function tick(){
+  const ex=state.exam; if(!ex){ stopTimer(); return; }
+  const t=$('#timerText'), box=$('#timerBox'); if(!t) return;
+  const rem=ex.endAt-Date.now();
+  if(rem<=0){ t.textContent='00:00'; finishExam(true); return; }
+  t.textContent=fmtDur(Math.ceil(rem/1000));
+  box.classList.toggle('warn', rem<=120000);
+}
+function finishFlow(){
+  const ex=state.exam; if(!ex||ex.submitted) return;
+  const un=ex.answers.filter(function(a){ return a==null; }).length;
+  const body=un>0
+    ? 'Tiene <b>'+un+'</b> pregunta(s) sin responder. Las preguntas sin respuesta se calificarán como incorrectas (0,00 pts).<br><br>¿Desea enviar la evaluación de todos modos?'
+    : 'Ha respondido todas las preguntas. Al enviar, se calculará su calificación, se mostrará el resumen completo y se registrará el resultado.<br><br>¿Confirma el envío?';
+  confirmModal({ title:'Finalizar evaluación', body:body, confirmText:'Enviar evaluación' }).then(function(ok){ if(ok) finishExam(false); });
+}
+function enviarAGoogleSheets(rec){
+  const url=(CONFIG.googleSheetUrl||'').trim();
+  if(!url || url.indexOf('PEGA_AQUI')===0) return;
+  const payload={
+    fecha: rec.fecha,
+    hora: rec.hora,
+    institucion: CONFIG.institucion,
+    actividad: CONFIG.codigoMateria,
+    dificultad: CONFIG.nivelDificultad,
+    nombre: rec.nombre,
+    cedula: rec.cedula,
+    seccion: rec.seccion || '',
+    intento: rec.intentoNum || 1,
+    aciertos: rec.aciertos,
+    total: rec.total,
+    nota: fmtNota(rec.nota),
+    passNote: fmtNota(rec.passNote!=null ? rec.passNote : CONFIG.notaMinimaAprobatoria),
+    estado: rec.estado,
+    duracionTexto: fmtDur(rec.duracionSeg),
+    policy: rec.policy || 'multiple',
+    feedbackMode: rec.feedbackMode || 'final'
+  };
+  fetch(url, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(function(err){
+    console.warn('No se pudo sincronizar con Google Sheets:', err);
+  });
+}
+function finishExam(auto){
+  const ex=state.exam; if(!ex||ex.submitted) return;
+  ex.submitted=true; stopTimer(); clearActive();
+  let aciertos=0;
+  ex.qs.forEach(function(q,i){ if(ex.answers[i]===q.correct) aciertos++; });
+  const nota=Math.round(aciertos/ex.qs.length*CONFIG.escalaMaxima*100)/100;
+  const fh=fechaHora();
+  const intentoNum = state.records.filter(function(r){ return r.cedulaKey===ex.student.cedulaKey; }).length + 1;
+  const rec={
+    id:uid(),
+    nombre:ex.student.nombre,
+    cedula:ex.student.cedula,
+    cedulaKey:ex.student.cedulaKey,
+    seccion:ex.student.seccion,
+    intentoNum:intentoNum,
+    fechaISO:fh.iso, fecha:fh.fecha, hora:fh.hora,
+    duracionSeg:Math.min(Math.round((Date.now()-ex.startAt)/1000), ex.minutes*60),
+    tiempoAsignadoSeg:ex.minutes*60,
+    aciertos:aciertos, total:ex.qs.length, nota:nota, passNote:ex.passNote,
+    estado:nota>=ex.passNote?'APROBADO':'REPROBADO',
+    policy:ex.policy,
+    feedbackMode:ex.feedbackMode || 'final',
+    detalle:ex.qs.map(function(q,i){ return { tema:q.tema, p:q.p, opts:q.opts, correct:q.correct, chosen:ex.answers[i], exp:q.exp }; })
+  };
+  state.records.push(rec); persistRecords();
+  enviarAGoogleSheets(rec);
+  state.lastRecord=rec; state.exam=null;
+  renderActaView(rec);
+  toast(auto?'Tiempo agotado: la evaluación se envió y calificó automáticamente.':'Evaluación calificada y registrada correctamente.', auto?'warn':'ok');
+}
+
+/* ================================================================
+   9) ACTA DE RESULTADO
+   ================================================================ */
+function intentoMap(){
+  const order=state.records.slice().sort(function(a,b){ return a.fechaISO.localeCompare(b.fechaISO); });
+  const cnt={}, map=new Map();
+  order.forEach(function(r){ cnt[r.cedulaKey]=(cnt[r.cedulaKey]||0)+1; map.set(r.id,cnt[r.cedulaKey]); });
+  return map;
+}
+function actaHTML(rec){
+  const map=intentoMap();
+  const intento=map.get(rec.id)||rec.intentoNum||1;
+  const ok=rec.estado==='APROBADO';
+  const pts=fmtNota(CONFIG.escalaMaxima/rec.total);
+  const pct=Math.round(rec.aciertos/rec.total*100);
+  const pol=rec.policy==='unico'?'Un solo registro por cédula':'Varios intentos';
+  const fbTxt=rec.feedbackMode==='durante'?'Durante el cuestionario':'Al final (resumen)';
+  const meta=[
+    ['Participante',rec.nombre],['Cédula',rec.cedula],['Sección / cohorte',rec.seccion||'—'],
+    ['Fecha',rec.fecha],['Hora',rec.hora],['Intento N.°',intento],
+    ['Dificultad',CONFIG.nivelDificultad],['Retroalimentación',fbTxt],
+    ['Política de intentos',pol],['Tiempo empleado',fmtDur(rec.duracionSeg)+' de '+fmtDur(rec.tiempoAsignadoSeg||rec.duracionSeg)]
+  ];
+  let html='<div class="acta">';
+  html+='<div class="acta-head"><div>'+
+    '<div class="acta-inst">'+icon('flame','ic-lg')+esc(CONFIG.institucion)+'</div>'+
+    '<div class="acta-sub">'+esc(CONFIG.tipoDocumento)+'</div>'+
+    '<div class="acta-long">'+esc(CONFIG.institucionLarga)+'</div>'+
+    '</div><div class="acta-title"><b>ACTA DE RESULTADO</b>'+
+    '<div class="acta-sub">'+esc(CONFIG.codigoMateria)+'</div>'+
+    '<div class="acta-long">Evaluación de conocimientos · Escala 0,00–'+fmtNota(CONFIG.escalaMaxima)+'</div>'+
+    '</div></div>';
+  html+='<div class="acta-meta">'+meta.map(function(m){ return '<div class="meta-item"><div class="meta-k">'+esc(m[0])+'</div><div class="meta-v">'+esc(m[1])+'</div></div>'; }).join('')+'</div>';
+  html+='<div class="score-banner '+(ok?'ok':'bad')+'">'+
+    '<div><div class="score-big">'+fmtNota(rec.nota)+' <span class="score-den">/ '+fmtNota(CONFIG.escalaMaxima)+'</span></div>'+
+    '<div style="margin-top:.4rem"><span class="badge '+(ok?'badge-ok':'badge-bad')+'">'+(ok?icon('check'):icon('x'))+rec.estado+'</span></div></div>'+
+    '<div class="score-mini">'+
+      '<div><b>'+rec.aciertos+'/'+rec.total+'</b><span>Aciertos</span></div>'+
+      '<div><b>'+pct+' %</b><span>Logro</span></div>'+
+      '<div><b>'+pts+'</b><span>Pts/acierto</span></div>'+
+      '<div><b>'+fmtNota(rec.passNote!=null?rec.passNote:CONFIG.notaMinimaAprobatoria)+'</b><span>Nota mínima</span></div>'+
+    '</div></div>';
+  html+='<h3 style="margin:0 0 .8rem;font-size:1rem;color:#0f172a">Resumen detallado y retroalimentación bibliográfica</h3>';
+  rec.detalle.forEach(function(d,i){
+    const good=d.chosen===d.correct, none=d.chosen==null;
+    const verdict=none?'<span class="verdict none">Sin responder · 0,00</span>':(good?'<span class="verdict ok">Correcta · +'+pts+'</span>':'<span class="verdict bad">Incorrecta · 0,00</span>');
+    html+='<div class="acta-q"><div class="q-head"><span class="q-num">'+(i+1)+'</span><span class="chip chip-fire">'+esc(d.tema)+'</span>'+verdict+'</div>'+
+      '<p class="q-text">'+esc(d.p)+'</p>';
+    d.opts.forEach(function(o,j){
+      const isC=j===d.correct, isP=j===d.chosen;
+      const cls=isC?' good':(isP?' badpick':'');
+      let tag='';
+      if(isC&&isP) tag='<span class="q-tag ok">✓ Su respuesta · correcta</span>';
+      else if(isC) tag='<span class="q-tag ok">✓ Respuesta correcta</span>';
+      else if(isP) tag='<span class="q-tag bad">✗ Su respuesta</span>';
+      html+='<div class="q-opt'+cls+'"><b>'+L[j]+')</b><span>'+esc(o)+'</span>'+tag+'</div>';
+    });
+    html+='<div class="q-exp"><b>Feedback y fundamentación:</b> '+esc(d.exp)+'</div></div>';
+  });
+  html+='<div class="sign-grid"><div class="sign">Firma del participante</div><div class="sign">Firma del instructor evaluador</div></div>';
+  const gen=fechaHora();
+  html+='<div class="acta-foot">Generado el '+gen.fecha+' a las '+gen.hora+' · '+esc(CONFIG.institucion)+' · '+esc(CONFIG.codigoMateria)+'</div>';
+  html+='</div>';
+  return html;
+}
+function renderActaView(rec){
+  $('#actaWrap').innerHTML=actaHTML(rec);
+  const multi=state.settings.policy==='multiple';
+  $('#resultActions').innerHTML=
+    '<button type="button" class="btn btn-dark" data-action="acta-print">'+icon('printer')+'Imprimir / Guardar PDF</button>'+
+    (multi?'<button type="button" class="btn btn-primary" data-action="exam-retry">'+icon('refresh')+'Nuevo intento</button>':'')+
+    '<button type="button" class="btn btn-ghost" data-action="go-home">'+icon('home')+'Volver al inicio</button>';
+  showView('result');
+}
+
+/* ================================================================
+   10) PANEL DOCENTE: Registros, Banco de Preguntas y Configuración
+   ================================================================ */
+function teacherOpen(){
+  if(state.exam){ toast('Finalice la evaluación en curso antes de abrir el panel docente.','warn'); return; }
+  if(state.teacher){ showView('teacher'); fillConfig(); renderTeacher(); return; }
+  const isDefault=state.settings.pwdHash===simpleHash(CONFIG.claveDocenteInicial);
+  openModal(
+    '<div class="modal-head"><div class="modal-title">'+icon('lock')+'<span>Acceso docente</span></div><button type="button" class="modal-x" data-action="modal-x" aria-label="Cerrar">'+icon('x')+'</button></div>'+
+    '<div class="modal-body"><form id="loginForm">'+
+    '<label class="label" for="loginPass">Clave de profesor</label>'+
+    '<input class="input mb-3" type="password" id="loginPass" autocomplete="current-password" placeholder="Ingrese la clave docente">'+
+    (isDefault?'<p class="text-xs text-slate-500 mb-3">Clave inicial de fábrica: <b>123456</b>.</p>':'')+
+    '<p id="loginErr" class="form-err hidden mb-3"></p>'+
+    '<button type="submit" class="btn btn-dark w-full justify-center">'+icon('lock')+'Ingresar al panel</button>'+
+    '</form></div>');
+  setTimeout(function(){ const p=$('#loginPass'); if(p) p.focus(); },60);
+}
+function loginErr(m){ const el=$('#loginErr'); if(el){ el.textContent=m; el.classList.remove('hidden'); } }
+function onLogin(){
+  const now=Date.now();
+  if(now<state.loginLockUntil){ loginErr('Demasiados intentos fallidos. Espere '+Math.ceil((state.loginLockUntil-now)/1000)+' segundos.'); return; }
+  const v=$('#loginPass').value;
+  if(simpleHash(v)===state.settings.pwdHash){
+    state.loginFails=0; state.teacher=true;
+    closeModal(); showView('teacher'); fillConfig(); renderTeacher();
+    toast('Bienvenido al panel docente.','ok');
+  }else{
+    state.loginFails++;
+    if(state.loginFails>=5){ state.loginLockUntil=Date.now()+30000; state.loginFails=0; loginErr('5 intentos fallidos: acceso bloqueado durante 30 segundos.'); }
+    else loginErr('Clave incorrecta. Intento '+state.loginFails+' de 5.');
+  }
+}
+function renderTeacher(){ renderStats(); renderTable(); renderBankViewer(); }
+function renderStats(){
+  const rs=state.records, n=rs.length;
+  const notas=rs.map(function(r){ return r.nota; });
+  const prom=n?notas.reduce(function(a,b){ return a+b; },0)/n:0;
+  const max=n?Math.max.apply(null,notas):0, min=n?Math.min.apply(null,notas):0;
+  const aprob=rs.filter(function(r){ return r.estado==='APROBADO'; }).length;
+  const uniq=new Set(rs.map(function(r){ return r.cedulaKey; })).size;
+  const pct=n?(aprob/n*100):0;
+  const items=[['Registros',String(n)],['Participantes',String(uniq)],
+    ['Promedio',n?fmtNota(prom):'—'],['Nota máxima',n?fmtNota(max):'—'],['Nota mínima',n?fmtNota(min):'—'],
+    ['Aprobación',n?pct.toFixed(1).replace('.',',')+' %':'—']];
+  $('#tStats').innerHTML=items.map(function(it){ return '<div class="stat"><div class="stat-k">'+it[0]+'</div><div class="stat-v">'+it[1]+'</div></div>'; }).join('');
+  $('#tDangerCount').textContent=String(n);
+}
+function renderTable(){
+  const q=(state.tSearch||'').toLowerCase();
+  const map=intentoMap();
+  const rows=state.records.slice().sort(function(a,b){ return b.fechaISO.localeCompare(a.fechaISO); })
+    .filter(function(r){ return !q || (r.nombre+' '+r.cedula+' '+(r.seccion||'')).toLowerCase().indexOf(q)!==-1; });
+  $('#tCount').textContent='Mostrando '+rows.length+' de '+state.records.length+' registro(s)';
+  if(!rows.length){
+    $('#tTableWrap').innerHTML='<div class="text-center text-sm text-slate-500 p-4">'+icon('info','ic-lg')+'<br>No hay registros que coincidan.</div>';
+    return;
+  }
+  let html='<table class="tbl"><thead><tr><th>#</th><th>Participante</th><th>Cédula</th><th>Sección</th><th>Fecha · Hora</th><th>Intento</th><th>Aciertos</th><th>Nota</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+  rows.forEach(function(r,i){
+    const ok=r.estado==='APROBADO';
+    const pn=r.passNote!=null?r.passNote:CONFIG.notaMinimaAprobatoria;
+    html+='<tr>'+
+      '<td class="text-slate-500">'+(i+1)+'</td>'+
+      '<td><span class="font-semibold break-words">'+esc(r.nombre)+'</span></td>'+
+      '<td class="font-mono whitespace-nowrap">'+esc(r.cedula)+'</td>'+
+      '<td class="break-words">'+esc(r.seccion||'—')+'</td>'+
+      '<td class="whitespace-nowrap"><div>'+esc(r.fecha)+'</div><div class="text-xs text-slate-500">'+esc(r.hora)+'</div></td>'+
+      '<td class="text-center font-mono">'+(map.get(r.id)||r.intentoNum||1)+'</td>'+
+      '<td class="text-center font-mono">'+r.aciertos+'/'+r.total+'</td>'+
+      '<td class="font-bold font-mono '+(r.nota>=pn?'text-emerald-700':'text-red-700')+'">'+fmtNota(r.nota)+'</td>'+
+      '<td><span class="badge '+(ok?'badge-ok':'badge-bad')+'">'+esc(r.estado)+'</span></td>'+
+      '<td class="whitespace-nowrap">'+
+        '<button type="button" class="btn btn-ghost btn-sm" data-action="t-view" data-id="'+r.id+'" title="Ver acta detallada">'+icon('eye')+'</button> '+
+        '<button type="button" class="btn btn-danger-ghost btn-sm" data-action="t-del" data-id="'+r.id+'" title="Eliminar registro">'+icon('trash')+'</button>'+
+      '</td></tr>';
+  });
+  html+='</tbody></table>';
+  $('#tTableWrap').innerHTML=html;
+}
+
+/* Vista independiente del Banco de Preguntas en Panel Docente */
+function renderBankViewer(){
+  const bank=getBank();
+  const temas=Object.keys(moduleCounts());
+  const sel=$('#bankTemaFilter');
+  if(sel){
+    const curVal=state.bankTema||'';
+    sel.innerHTML='<option value="">Todos los temas ('+bank.length+')</option>'+
+      temas.map(function(t){ return '<option value="'+esc(t)+'"'+(t===curVal?' selected':'')+'>'+esc(t)+'</option>'; }).join('');
+  }
+  const q=(state.bankSearch||'').trim().toLowerCase();
+  const tFilter=state.bankTema||'';
+  const filtered=bank.filter(function(item){
+    if(tFilter && item.tema!==tFilter) return false;
+    if(!q) return true;
+    const hay=(item.tema+' '+item.p+' '+item.ok+' '+item.bad.join(' ')+' '+item.exp).toLowerCase();
+    return hay.indexOf(q)!==-1;
+  });
+  $('#bankSummary').textContent='Mostrando '+filtered.length+' de '+bank.length+' preguntas del banco · Se sortean '+Math.min(CONFIG.preguntasPorExamen, bank.length)+' al azar por intento.';
+  if(!filtered.length){
+    $('#bankListWrap').innerHTML='<div class="text-center text-sm text-slate-500 p-4">No hay preguntas que coincidan con el filtro aplicado.</div>';
+    return;
+  }
+  $('#bankListWrap').innerHTML=filtered.map(function(item){
+    const allOpts=[item.ok].concat(item.bad);
+    return '<div class="bank-item">'+
+      '<div class="flex items-center justify-between flex-wrap gap-2 mb-2">'+
+        '<span class="chip chip-fire">'+icon('book')+'Pregunta #'+item.id+' · '+esc(item.tema)+'</span>'+
+        '<span class="badge badge-ok">'+icon('check')+'Clave verificada</span>'+
+      '</div>'+
+      '<p class="font-bold text-slate-900 mb-2" style="margin-top:0">'+esc(item.p)+'</p>'+
+      allOpts.map(function(opt,idx){
+        const isCorrect=(opt===item.ok);
+        return '<div class="bank-opt'+(isCorrect?' is-ok':'')+'">'+
+          '<b>'+L[idx]+')</b>'+
+          '<span class="flex-1">'+esc(opt)+'</span>'+
+          (isCorrect?'<span class="badge badge-ok">Respuesta correcta</span>':'')+
+        '</div>';
+      }).join('')+
+      '<div class="hint-box mt-2"><b>Retroalimentación / fundamentación:</b> '+esc(item.exp)+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function fillConfig(){
+  $('#polMultiple').checked=state.settings.policy==='multiple';
+  $('#polUnico').checked=state.settings.policy==='unico';
+  $('#fbFinal').checked=state.settings.feedbackMode!=='durante';
+  $('#fbDurante').checked=state.settings.feedbackMode==='durante';
+  $('#setMin').value=state.settings.minutes;
+  $('#setPass').value=state.settings.passNote;
+  const bank=getBank();
+  const counts=moduleCounts();
+  $('#bankInfo').innerHTML='<p class="text-sm text-slate-600 mb-2"><b>'+bank.length+' preguntas</b> en el banco · <b>'+Math.min(CONFIG.preguntasPorExamen, bank.length)+'</b> por intento · Dificultad: <b>'+esc(CONFIG.nivelDificultad)+'</b>.</p>'+
+    '<div class="flex flex-wrap gap-2">'+Object.entries(counts).map(function(e){ return '<span class="chip">'+esc(e[0])+' · '+e[1]+'</span>'; }).join('')+'</div>';
+}
+function onSaveSettings(){
+  const pol=($('#settingsForm').querySelector('input[name="policy"]:checked')||{}).value||'multiple';
+  const fb=($('#settingsForm').querySelector('input[name="feedbackMode"]:checked')||{}).value||'final';
+  const minutes=clamp(parseInt($('#setMin').value,10)||CONFIG.tiempoMinutos,1,120);
+  const pv=parseFloat($('#setPass').value);
+  const passNote=clamp(Math.round((Number.isFinite(pv)?pv:CONFIG.notaMinimaAprobatoria)*100)/100,0,20);
+  state.settings.policy=(pol==='unico')?'unico':'multiple';
+  state.settings.feedbackMode=(fb==='durante')?'durante':'final';
+  state.settings.minutes=minutes;
+  state.settings.passNote=passNote;
+  persistSettings(); fillConfig(); renderHome();
+  toast('Configuración guardada. Aplicará a los próximos exámenes.','ok');
+}
+function onChangePass(){
+  const cur=$('#pCur').value, nw=$('#pNew').value, cf=$('#pConf').value;
+  if(simpleHash(cur)!==state.settings.pwdHash){ toast('La clave actual es incorrecta.','err'); return; }
+  if(nw.length<6){ toast('La nueva clave debe tener al menos 6 caracteres.','err'); return; }
+  if(nw!==cf){ toast('La confirmación no coincide con la nueva clave.','err'); return; }
+  state.settings.pwdHash=simpleHash(nw); persistSettings();
+  $('#passForm').reset();
+  toast('Clave docente actualizada correctamente.','ok');
+}
+function viewRecord(id){
+  const rec=state.records.find(function(r){ return r.id===id; });
+  if(!rec){ toast('Registro no encontrado.','err'); return; }
+  openModal(
+    '<div class="modal-head"><div class="modal-title">'+icon('file')+'<span>Acta de '+esc(rec.nombre)+'</span></div><button type="button" class="modal-x" data-action="modal-x" aria-label="Cerrar">'+icon('x')+'</button></div>'+
+    '<div class="modal-body">'+actaHTML(rec)+
+    '<div class="flex justify-end gap-2 flex-wrap mt-4 no-print">'+
+      '<button type="button" class="btn btn-dark" data-action="t-print" data-id="'+rec.id+'">'+icon('printer')+'Imprimir acta</button>'+
+      '<button type="button" class="btn btn-ghost" data-action="modal-x">Cerrar</button>'+
+    '</div></div>', { large:true });
+}
+function delRecord(id){
+  const rec=state.records.find(function(r){ return r.id===id; });
+  if(!rec) return;
+  confirmModal({
+    title:'Eliminar registro individual', danger:true, confirmText:'Eliminar registro',
+    body:'Se eliminará el registro de <b>'+esc(rec.nombre)+'</b> (cédula '+esc(rec.cedula)+', nota '+fmtNota(rec.nota)+', '+esc(rec.fecha)+' '+esc(rec.hora)+').<br><br>¿Desea continuar?'
+  }).then(function(ok){
+    if(!ok) return;
+    state.records=state.records.filter(function(r){ return r.id!==id; });
+    persistRecords(); renderTeacher();
+    toast('Registro eliminado.','ok');
+  });
+}
+function clearAll(){
+  if(!state.records.length){ toast('No hay registros que eliminar.','info'); return; }
+  confirmModal({
+    title:'Limpiar todo el registro (1/2)', danger:true, confirmText:'Continuar',
+    body:'Se eliminarán <b>'+state.records.length+'</b> registro(s) locales. Exporte el CSV antes de borrar.<br><br>¿Desea continuar a la confirmación final?'
+  }).then(function(ok){
+    if(!ok) return;
+    openModal(
+      '<div class="modal-head"><div class="modal-title">'+icon('alert')+'<span>Confirmación final (2/2)</span></div><button type="button" class="modal-x" data-action="modal-x" aria-label="Cerrar">'+icon('x')+'</button></div>'+
+      '<div class="modal-body">'+
+      '<p class="text-sm leading-relaxed mb-3">Esta acción es <b>irreversible</b>. Escriba <b>LIMPIAR</b> para habilitar el botón.</p>'+
+      '<input class="input mb-3" id="clearPhrase" placeholder="Escriba LIMPIAR" autocomplete="off">'+
+      '<div class="flex justify-end gap-2 flex-wrap">'+
+        '<button type="button" class="btn btn-ghost" data-action="modal-x">Cancelar</button>'+
+        '<button type="button" class="btn btn-danger" id="btnClearExec" data-action="clear-exec" disabled>'+icon('trash')+'Eliminar todo definitivamente</button>'+
+      '</div></div>');
+  });
+}
+function clearExec(){
+  const inp=$('#clearPhrase');
+  if(!inp || inp.value.trim().toUpperCase()!=='LIMPIAR'){ toast('Debe escribir LIMPIAR para confirmar.','warn'); return; }
+  state.records=[]; persistRecords();
+  closeModal(); renderTeacher();
+  toast('Registro local eliminado.','ok');
+}
+
+/* ================================================================
+   11) EXPORTACIÓN CSV
+   ================================================================ */
+function csvCell(v){
+  let s=String(v==null?'':v);
+  if(/^[=+\-@]/.test(s)) s="'"+s;
+  if(/[";\n\r]/.test(s)) s='"'+s.replace(/"/g,'""')+'"';
+  return s;
+}
+function buildCSV(){
+  const head=['Nombre','Cédula','Sección/Cohorte','Fecha','Hora','Intento N°','Aciertos','Total preguntas','Nota (0-20)','Nota mínima','Estado','Tiempo empleado','Política','Retroalimentación'];
+  const map=intentoMap();
+  const rows=state.records.slice().sort(function(a,b){ return a.fechaISO.localeCompare(b.fechaISO); }).map(function(r){
+    return [r.nombre, r.cedula, r.seccion||'', r.fecha, r.hora, map.get(r.id)||r.intentoNum||1, r.aciertos, r.total,
+      fmtNota(r.nota), fmtNota(r.passNote!=null?r.passNote:CONFIG.notaMinimaAprobatoria), r.estado,
+      fmtDur(r.duracionSeg), r.policy==='unico'?'Registro único':'Varios intentos',
+      r.feedbackMode==='durante'?'Durante':'Al final'];
+  });
+  return [head].concat(rows).map(function(row){ return row.map(csvCell).join(';'); }).join('\r\n');
+}
+function exportCSV(){
+  if(!state.records.length){ toast('No hay registros para exportar.','warn'); return; }
+  const d=new Date();
+  const fname='Calificaciones_'+CONFIG.institucion.replace(/\s+/g,'_')+'_Clase2_Elementos_Fuego_'+d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate())+'.csv';
+  const blob=new Blob(['\uFEFF'+buildCSV()],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=fname; document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },400);
+  toast('CSV exportado ('+state.records.length+' registros).','ok');
+}
+
+/* ================================================================
+   12) MODALES, TOASTS, IMPRESIÓN Y REANUDACIÓN
+   ================================================================ */
+function openModal(html, opts){
+  opts=opts||{};
+  if(state.modalOpen) closeModal();
+  state.modalOpen=true; state.modalClose=opts.onClose||null;
+  $('#modalRoot').innerHTML='<div class="modal-backdrop" id="mBackdrop"><div class="modal-card'+(opts.large?' modal-lg':'')+'" role="dialog" aria-modal="true">'+html+'</div></div>';
+  $('#mBackdrop').addEventListener('mousedown',function(e){ if(e.target.id==='mBackdrop') closeModal(); });
+}
+function closeModal(){
+  if(!state.modalOpen) return;
+  $('#modalRoot').innerHTML=''; state.modalOpen=false;
+  const cb=state.modalClose; state.modalClose=null;
+  if(cb) cb();
+}
+function confirmModal(o){
+  return new Promise(function(res){
+    let done=false;
+    const fin=function(v){ if(!done){ done=true; res(v); } };
+    openModal(
+      '<div class="modal-head"><div class="modal-title">'+icon(o.danger?'alert':'info')+'<span>'+esc(o.title)+'</span></div><button type="button" class="modal-x" data-action="modal-x" aria-label="Cerrar">'+icon('x')+'</button></div>'+
+      '<div class="modal-body"><div class="text-sm leading-relaxed mb-4">'+o.body+'</div>'+
+      '<div class="flex justify-end gap-2 flex-wrap">'+
+        '<button type="button" class="btn btn-ghost" id="mCancel">'+esc(o.cancelText||'Cancelar')+'</button>'+
+        '<button type="button" class="btn '+(o.danger?'btn-danger':'btn-primary')+'" id="mOk">'+esc(o.confirmText||'Confirmar')+'</button>'+
+      '</div></div>', { onClose:function(){ fin(false); } });
+    $('#mOk').addEventListener('click',function(){ fin(true); closeModal(); });
+    $('#mCancel').addEventListener('click',function(){ fin(false); closeModal(); });
+  });
+}
+function toast(msg, type){
+  type=type||'info';
+  const ic={ok:'check',warn:'alert',err:'x',info:'info'}[type]||'info';
+  const root=$('#toastRoot'); if(!root) return;
+  const el=document.createElement('div');
+  el.className='toast toast-'+type;
+  el.innerHTML=icon(ic)+'<span>'+esc(msg)+'</span>';
+  root.appendChild(el);
+  setTimeout(function(){ el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(function(){ el.remove(); },320); },3800);
+}
+function printContent(html){
+  const pr=$('#printRoot');
+  pr.innerHTML=html;
+  document.body.classList.add('printing');
+  const cleanup=function(){ document.body.classList.remove('printing'); pr.innerHTML=''; };
+  window.addEventListener('afterprint',cleanup,{once:true});
+  window.print();
+  setTimeout(cleanup,600);
+}
+function checkResume(){
+  const snap=loadActive();
+  if(!snap || !Array.isArray(snap.qs) || !snap.qs.length || !snap.student || snap.submitted){ clearActive(); return; }
+  state.pendingResume=snap;
+  const answered=snap.answers.filter(function(a){ return a!=null; }).length;
+  const expired=snap.endAt<=Date.now();
+  openModal(
+    '<div class="modal-head"><div class="modal-title">'+icon('refresh')+'<span>Evaluación en curso detectada</span></div><button type="button" class="modal-x" data-action="resume-no" aria-label="Cerrar">'+icon('x')+'</button></div>'+
+    '<div class="modal-body">'+
+    '<p class="text-sm leading-relaxed mb-2">Participante: <b>'+esc(snap.student.nombre)+'</b> ('+esc(snap.student.cedula)+')</p>'+
+    '<p class="text-sm leading-relaxed mb-3">Respondidas: <b>'+answered+' de '+snap.qs.length+'</b>. '+
+    (expired?'El tiempo expiró; al reanudar se calificará automáticamente.':'Tiempo restante: <b>'+fmtDur(Math.ceil((snap.endAt-Date.now())/1000))+'</b>.')+'</p>'+
+    '<div class="flex justify-end gap-2 flex-wrap">'+
+      '<button type="button" class="btn btn-ghost" data-action="resume-no">Descartar</button>'+
+      '<button type="button" class="btn btn-primary" data-action="resume-yes">'+icon('play')+'Reanudar</button>'+
+    '</div></div>');
+}
+function resumeYes(){
+  const snap=state.pendingResume;
+  if(!snap){ closeModal(); return; }
+  state.pendingResume=null; closeModal();
+  state.exam=snap;
+  if(snap.endAt<=Date.now()){ finishExam(true); return; }
+  showView('exam');
+  $('#exName').textContent=snap.student.nombre;
+  $('#exCed').textContent=snap.student.cedula+(snap.student.seccion?' · '+snap.student.seccion:'');
+  renderQuestion(); renderPalette(); startTimer();
+  toast('Evaluación reanudada.','ok');
+}
+function resumeNo(){ state.pendingResume=null; clearActive(); closeModal(); toast('Intento descartado.','info'); }
+
+/* ================================================================
+   13) EVENTOS Y ARRANQUE
+   ================================================================ */
+const actions={
+  'teacher-open':function(){ teacherOpen(); },
+  'go-home':function(){ showView('home'); renderHome(); },
+  'exam-prev':function(){ const ex=state.exam; if(!ex||ex.idx===0) return; ex.idx--; saveActive(); renderQuestion(); renderPalette(); },
+  'exam-next':function(){ const ex=state.exam; if(!ex) return; if(ex.idx>=ex.qs.length-1){ finishFlow(); } else { ex.idx++; saveActive(); renderQuestion(); renderPalette(); } },
+  'exam-finish':function(){ finishFlow(); },
+  'opt':function(el){ selectOpt(parseInt(el.dataset.idx,10)); },
+  'pal':function(el){ const ex=state.exam; if(!ex) return; ex.idx=parseInt(el.dataset.idx,10); saveActive(); renderQuestion(); renderPalette(); },
+  'acta-print':function(){ if(state.lastRecord) printContent(actaHTML(state.lastRecord)); },
+  'exam-retry':function(){
+    const r=state.lastRecord;
+    if(r){ $('#regNombre').value=r.nombre; $('#regCedula').value=r.cedula; $('#regSeccion').value=r.seccion||''; }
+    showView('home'); renderHome();
+    toast('Datos precargados para un nuevo intento.','info');
+  },
+  't-logout':function(){ state.teacher=false; showView('home'); renderHome(); toast('Sesión docente cerrada.','info'); },
+  't-tab':function(el){
+    state.tTab=el.dataset.tab;
+    $('#tabRecords').classList.toggle('hidden', state.tTab!=='records');
+    $('#tabBank').classList.toggle('hidden', state.tTab!=='bank');
+    $('#tabConfig').classList.toggle('hidden', state.tTab!=='config');
+    $('#btnTabRecords').classList.toggle('active', state.tTab==='records');
+    $('#btnTabBank').classList.toggle('active', state.tTab==='bank');
+    $('#btnTabConfig').classList.toggle('active', state.tTab==='config');
+    if(state.tTab==='bank') renderBankViewer();
+    if(state.tTab==='config') fillConfig();
+  },
+  't-view':function(el){ if(!state.teacher){ toast('Sesión docente requerida.','err'); return; } viewRecord(el.dataset.id); },
+  't-del':function(el){ if(!state.teacher){ toast('Sesión docente requerida.','err'); return; } delRecord(el.dataset.id); },
+  't-print':function(el){
+    if(!state.teacher) return;
+    const rec=state.records.find(function(r){ return r.id===el.dataset.id; });
+    if(rec) printContent(actaHTML(rec));
+  },
+  't-export':function(){ if(!state.teacher){ toast('Sesión docente requerida.','err'); return; } exportCSV(); },
+  't-clear':function(){ if(!state.teacher){ toast('Sesión docente requerida.','err'); return; } clearAll(); },
+  'clear-exec':function(){ clearExec(); },
+  'modal-x':function(){ closeModal(); },
+  'resume-yes':function(){ resumeYes(); },
+  'resume-no':function(){ resumeNo(); }
+};
+function bindGlobal(){
+  document.addEventListener('click',function(e){
+    const el=e.target.closest('[data-action]');
+    if(!el) return;
+    const fn=actions[el.dataset.action];
+    if(fn) fn(el,e);
+  });
+  document.addEventListener('submit',function(e){
+    const f=e.target;
+    if(f.id==='regForm'){ e.preventDefault(); onRegister(); }
+    else if(f.id==='loginForm'){ e.preventDefault(); onLogin(); }
+    else if(f.id==='settingsForm'){ e.preventDefault(); onSaveSettings(); }
+    else if(f.id==='passForm'){ e.preventDefault(); onChangePass(); }
+  });
+  document.addEventListener('input',function(e){
+    if(e.target.id==='tSearch'){ state.tSearch=e.target.value; renderTable(); }
+    else if(e.target.id==='bankSearch'){ state.bankSearch=e.target.value; renderBankViewer(); }
+    else if(e.target.id==='clearPhrase'){
+      const b=$('#btnClearExec');
+      if(b) b.disabled=e.target.value.trim().toUpperCase()!=='LIMPIAR';
+    }
+  });
+  document.addEventListener('change',function(e){
+    if(e.target.id==='bankTemaFilter'){ state.bankTema=e.target.value; renderBankViewer(); }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&state.modalOpen){ closeModal(); return; }
+    if(state.view!=='exam'||state.modalOpen||!state.exam) return;
+    const t=e.target;
+    if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA')) return;
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
+    const map={a:0,b:1,c:2,d:3,'1':0,'2':1,'3':2,'4':3};
+    const k=e.key.toLowerCase();
+    if(Object.prototype.hasOwnProperty.call(map,k)){ selectOpt(map[k]); e.preventDefault(); }
+    else if(e.key==='ArrowRight'){ actions['exam-next'](); e.preventDefault(); }
+    else if(e.key==='ArrowLeft'){ actions['exam-prev'](); e.preventDefault(); }
+  });
+  window.addEventListener('beforeunload',function(e){
+    if(state.exam&&!state.exam.submitted){ e.preventDefault(); e.returnValue=''; }
+  });
+  window.addEventListener('storage',function(e){
+    if(e.key===K.records){
+      state.records=loadJSON(K.records,[])||[];
+      if(state.teacher&&state.view==='teacher') renderTeacher();
+    }
+    if(e.key===K.settings){
+      state.settings=Object.assign(defaultSettings(), loadJSON(K.settings,{})||{});
+      renderHome();
+      if(state.teacher&&state.view==='teacher') fillConfig();
+    }
+  });
+}
+function init(){
+  if(!window.tailwind){
+    document.documentElement.classList.add('no-tw');
+    const on=$('#offlineNote'); if(on) on.classList.remove('hidden');
+  }
+  $$('[data-icon]').forEach(function(el){ el.innerHTML=icon(el.dataset.icon); });
+  const stored=loadJSON(K.settings,null);
+  state.settings=Object.assign(defaultSettings(), stored||{});
+  state.settings.policy=(state.settings.policy==='unico')?'unico':'multiple';
+  state.settings.feedbackMode=(state.settings.feedbackMode==='durante')?'durante':'final';
+  state.settings.minutes=clamp(parseInt(state.settings.minutes,10)||CONFIG.tiempoMinutos,1,120);
+  const pn=Number(state.settings.passNote);
+  state.settings.passNote=clamp(Number.isFinite(pn)?pn:CONFIG.notaMinimaAprobatoria,0,20);
+  if(!state.settings.pwdHash) state.settings.pwdHash=simpleHash(CONFIG.claveDocenteInicial);
+  persistSettings();
+  state.records=(loadJSON(K.records,[])||[]).filter(function(r){ return r&&r.id&&r.cedulaKey&&Array.isArray(r.detalle); });
+  renderHeader(); renderHome(); bindGlobal(); showView('home'); checkResume();
+}
+if(typeof document!=='undefined'&&typeof window!=='undefined'){
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
+}
+</script>
+</body>
+</html>
